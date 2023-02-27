@@ -14,7 +14,5 @@ use App\Http\Controllers\PostController;
 |
 */
 Route::get('/about', [PagesController::class, 'getAbout']);
-
 Route::get('/', [PagesController::class, 'getIndex']);
-
 Route::resource('posts', PostController::class);

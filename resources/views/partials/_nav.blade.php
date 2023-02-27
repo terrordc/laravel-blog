@@ -15,12 +15,12 @@
           <a class="nav-link" href="about">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="posts/create">New post</a>
+          <a class="nav-link" href="/posts/create">New post</a>
         </li>
 </ul>
 
         <ul class="navbar-nav ms-auto mb-0 mb-lg-0">
-        <a href="posts/create" class="btn btn-primary ms-auto me-2 d-none d-lg-block">New Post</a>
+        <a href="/posts/create" class="btn btn-primary ms-auto me-2 d-none d-lg-block">New Post</a>
         <li class="nav-item dropdown">
         
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
