@@ -12,6 +12,10 @@
               <textarea type="text" class="form-control input-lg" id="title" name="title" rows="1" style="resize:none;">{{ $post->title }}</textarea>
             </div>
             <div class="form-group">
+                <label for="slug"> Slug:</label>
+                <textarea class="form-control input-lg" name="slug" id="slug" rows="1" style="resize:none;">{{ $post->slug }}</textarea>
+                </div>
+            <div class="form-group">
               <label for="body">Body:</label>
               <textarea type="text" class="form-control input-lg" id="body" name="body" rows="10">{{ $post->body }}</textarea>
             </div>
@@ -20,6 +24,10 @@
 <div class="col-md-4 mt-4">
     <div class="card">
     <div class="card-body">
+        <dl class="dl-horizontal">
+            <dt>Url slug:</dt>
+            <dd><a href="{{url($post->slug)}}">{{url($post->slug)}}</a> </dd>
+        </dl>
          <dl class="dl-horizontal">
         <dt>Created at:</dt>
         <dd>{{date('j F, Y, G:i ', strtotime($post->created_at))}}</dd>

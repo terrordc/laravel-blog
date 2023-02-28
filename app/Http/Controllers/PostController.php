@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Session;
+use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
     /**
@@ -40,12 +41,38 @@ class PostController extends Controller
     {
 
         $validated = $request->validate([
-            'title' => 'required|max:255',
+            'title' => 'required|min:5|max:255',
+            // 'slug' => 'required|alpha_dash|min:5|max:255',
+            // validate that after
             'body' => 'required',
         ]);
         $post = new Post;
-
         $post->title = $request->title;
+        // if slug field is null pull from title
+        if($request->slug == null){
+
+                       $new_slug  = \Illuminate\Support\Str::slug($request->input('title'), '-');
+              
+                    // check if slug already exists
+                     if(Post::where('slug' ,'=', $new_slug)->exists()){
+                        // throw error
+                        
+                     }
+                     else{
+                        // update with newly created slug
+                        $post->slug = $new_slug;
+                    }
+
+             
+        }
+        // else validate slug and push to database
+        else{
+            $request->validate([
+                'slug' => 'alpha_dash|min:5|max:255|unique:posts,slug'
+        ]);
+        $post->slug = $request->slug;
+        }
+
         $post->body = $request->body;
 
         $post->save();
@@ -93,6 +120,7 @@ class PostController extends Controller
         
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
             'body' => 'required',
         ]);
 
@@ -100,6 +128,7 @@ class PostController extends Controller
 
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        $post->slug = $request->input('slug');
 
         $post->save();
 

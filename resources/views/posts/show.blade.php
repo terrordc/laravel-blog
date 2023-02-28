@@ -14,6 +14,11 @@
 <div class="col-md-4">
     <div class="card">
     <div class="card-body">
+        <dl class="dl-horizontal">
+            <dt>Url slug:</dt>
+            
+            <dd><a href="{{url($post->slug)}}">{{url($post->slug)}}</a> </dd>
+        </dl>
          <dl class="dl-horizontal">
         <dt>Created at:</dt>
         <dd>{{date('j F, Y, G:i ', strtotime($post->created_at))}}</dd>
