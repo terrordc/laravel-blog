@@ -29,7 +29,7 @@
                     <input class="btn btn-success btn-block btn-lg mt-3" type="submit" value="Submit"></input>
                 </div>
                 <input type="hidden" name="_token" value="{{ Session::token() }}">
-                <!-- @csrf works too! -->
+                <!-- At csrf works too! -->
           </form>
     </div>
  </div>

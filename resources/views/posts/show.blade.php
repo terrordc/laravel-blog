@@ -5,6 +5,8 @@
 @section('content')
 <div class="row mt-4">
     <div class="col-md-8">
+
+      
 <h1>{{ $post->title}}</h1>
 
 <p class="lead">{{$post->body}}</p>
