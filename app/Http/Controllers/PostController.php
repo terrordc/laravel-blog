@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-
+use Session;
 class PostController extends Controller
 {
     /**
@@ -14,8 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-
+        $posts = Post::orderBy('id', 'desc')->paginate(10);
+        // sort dy?
         return view('posts.index')->withPosts($posts);
     }
 
@@ -49,8 +49,7 @@ class PostController extends Controller
         $post->body = $request->body;
 
         $post->save();
-        $request->session()->flash('success', 'Post successfully created!');
-
+        Session::flash('success', 'Post successfully created!'); 
       return redirect()->route('posts.show', $post->id);
 
     }
@@ -104,8 +103,8 @@ class PostController extends Controller
 
         $post->save();
 
-        $request->session()->flash('success', 'Post successfully updated!');
-
+    
+        Session::flash('success', 'Post successfully updated!'); 
       return redirect()->route('posts.show', $post->id);
 
 
@@ -118,13 +117,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $post = Post::find($id);
 
-        $request->session()->flash('success', 'Post successfully deleted!');
+        $post->delete();
 
-      return redirect()->route('posts.show', $post->id);
+        Session::flash('success', 'Post successfully deleted!'); 
+
+      return redirect()->route('posts.index');
 
     }
 }

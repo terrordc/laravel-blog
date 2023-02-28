@@ -31,15 +31,17 @@
 
     <hr>
 
-    <div class="row justify-content-evenly">
+    <div class="row justify-content-between m-0">
         
-            <a href="{{ route('posts.show', $post->id) }}" class="btn btn-danger btn-block mt-2 col-5 m-auto">Cancel</a>
+            <a href="{{ route('posts.show', $post->id) }}" class="btn btn-danger btn-block mt-2 col-5 ">Cancel</a>
        
-            <button type="submit" class="btn btn-primary btn-block mt-2 col-5 m-auto">Save</button>
+            <button type="submit" class="btn btn-primary btn-block mt-2 col-5">Save</button>
             @csrf
             {{ method_field('PUT') }}
           </form>
     </div>
+
+    <a href="{{ route('posts.index') }}" class="btn btn-Light btn-block border mt-2  w-100">Back to all posts</a>
 
         </div>
     </div>

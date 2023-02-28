@@ -29,8 +29,12 @@
         
             <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-block mt-2 col-5">Edit</a>
        
-            <a href="{{ route('posts.destroy', $post->id) }}" class="btn btn-danger btn-block mt-2 col-5 ">Delete</a>
-       
+            
+            <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class=" mt-2 col-5 p-0">
+                <input type="submit" value="Delete" class="btn btn-danger btn-block w-100">
+                @csrf
+               {{ method_field('DELETE') }}
+            </form>
     </div>
 
         </div>
