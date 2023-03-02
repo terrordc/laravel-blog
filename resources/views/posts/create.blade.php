@@ -21,6 +21,7 @@
 <div class="form-group">
   <label for="slug"> Slug:</label>
   <input class="form-control" name="slug" id="slug" minlength="5" maxlength="255"></textarea>
+  <p class="text-muted mb-1 mt-1">If left null, slug is taken from title</p>
   </div>
 <div class="form-group">
             <label for="body"> Post body:</label>

@@ -26,7 +26,7 @@
             <p>   
                 {{ \Illuminate\Support\Str::limit($post->body, 300, '...')}}
             </p> 
-            <a href="#" class="btn btn-primary">Read Post</a>
+            <a href="{{url('blog/'. $post->slug)}}" class="btn btn-primary">Read Post</a>
 
     
     </div>

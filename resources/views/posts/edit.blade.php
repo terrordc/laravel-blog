@@ -9,11 +9,13 @@
         <form method="POST" action="{{ route('posts.update', $post->id) }}">
             <div class="form-group">
               <label for="title">Title:</label>
-              <textarea type="text" class="form-control input-lg" id="title" name="title" rows="1" style="resize:none;">{{ $post->title }}</textarea>
+              <textarea type="text" class="form-control" id="title" name="title" rows="1" style="resize:none;">{{ $post->title }}</textarea>
             </div>
             <div class="form-group">
                 <label for="slug"> Slug:</label>
-                <textarea class="form-control input-lg" name="slug" id="slug" rows="1" style="resize:none;">{{ $post->slug }}</textarea>
+                <textarea class="form-control" name="slug" id="slug" rows="1" style="resize:none; " >{{ $post->slug }}</textarea>
+                <p class="text-muted mb-1 mt-1">If left null, slug is taken from title</p>
+
                 </div>
             <div class="form-group">
               <label for="body">Body:</label>

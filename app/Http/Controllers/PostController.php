@@ -42,39 +42,41 @@ class PostController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|min:5|max:255',
-            // 'slug' => 'required|alpha_dash|min:5|max:255',
-            // validate that after
             'body' => 'required',
         ]);
         $post = new Post;
-        $post->title = $request->title;
-        // if slug field is null pull from title
+         //    if slug field is null
         if($request->slug == null){
+                // create slug from title
+                $new_slug  = \Illuminate\Support\Str::slug($request->input('title'), '-');
+        
+                // check if slug from title already exists and redirect with error
+                if(Post::where('slug' ,'=', $new_slug)->exists()){
+                    $errors = ['error' => 'Slug already occupied!'];
+                    return redirect()->route('posts.create')->withErrors($errors);
+                }
+                else{
+                //if not update request with slug from title and verify
+                $request->request->add(['slug' => $new_slug]);   
+                $request->validate([
+                    'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug'
+                    ]);
 
-                       $new_slug  = \Illuminate\Support\Str::slug($request->input('title'), '-');
-              
-                    // check if slug already exists
-                     if(Post::where('slug' ,'=', $new_slug)->exists()){
-                        // throw error
-                        
-                     }
-                     else{
-                        // update with newly created slug
-                        $post->slug = $new_slug;
-                    }
-
-             
+                    //save
+                $post->slug = $new_slug;
+                }
         }
         // else validate slug and push to database
         else{
+                 
             $request->validate([
-                'slug' => 'alpha_dash|min:5|max:255|unique:posts,slug'
-        ]);
-        $post->slug = $request->slug;
-        }
-
+                'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug'
+                ]);
+            $post->slug = $request->input('slug');
+                }
+    // update everything else and save
+        $post->title = $request->title;
         $post->body = $request->body;
-
         $post->save();
         Session::flash('success', 'Post successfully created!'); 
       return redirect()->route('posts.show', $post->id);
@@ -115,29 +117,54 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
-        
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
-            'body' => 'required',
-        ]);
-
         $post = Post::find($id);
+        
+        // slug hasnt changed - skip to save
+        if($request->input('slug') == $post->slug){
+            $validated = $request->validate([
+                'title' => 'required|max:255',
+                'body' => 'required',
+            ]);
+        }
 
+        // slug did change - 
+        else{
+        //    if slug field is null
+                if($request->input('slug') == null){
+                    // create slug from title
+                    $new_slug  = \Illuminate\Support\Str::slug($request->input('title'), '-');
+
+                    // check if slug from title already exists and redirect with error
+                    if(Post::where('slug' ,'=', $new_slug)->exists()){
+                        $errors = ['error' => 'Slug from title already occupied!'];
+                        return redirect()->route('posts.edit', $post->id)->withErrors($errors);
+                    }
+                    //if not update request with slug from title and verify
+                    else{
+                        $request->request->add(['slug' => $new_slug]);   
+                        $request->validate([
+                            'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug'
+                            ]);
+
+                            //save
+                        $post->slug = $new_slug;
+                    }
+                }
+        // if slug field isnt null validate and update database
+                else{
+                 
+                $request->validate([
+                    'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug'
+                    ]);
+                $post->slug = $request->input('slug');
+                    }
+        }
+        // update everything else and save
         $post->title = $request->input('title');
         $post->body = $request->input('body');
-        $post->slug = $request->input('slug');
-
         $post->save();
-
-    
         Session::flash('success', 'Post successfully updated!'); 
-      return redirect()->route('posts.show', $post->id);
-
-
-
+        return redirect()->route('posts.show', $post->id);
     }
 
     /**
