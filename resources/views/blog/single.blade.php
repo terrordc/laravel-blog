@@ -5,10 +5,10 @@
 
 @section('content')
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h1>{{ $post->title}}</h1>
-        <p>{{$post->body}}</p>
+<div class="row m-auto">
+    <div class="col-md-10 m-auto ">
+        <h1 class="mt-3">{{ $post->title}}</h1>
+        <p class="mt-2">{{$post->body}}</p>
     </div>
 </div>
 @endsection

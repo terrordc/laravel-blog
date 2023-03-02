@@ -16,7 +16,7 @@
     <div class="col-8 h-100 ">
 
         @foreach($posts as $post)
-    <div class="post p-4 text-bg-light rounded-3 mt-4">
+    <div class="post p-4 text-bg-light border rounded-3 mt-4">
         <h3>
              {{ \Illuminate\Support\Str::limit($post->title, 127, '...')}}
         </h3>

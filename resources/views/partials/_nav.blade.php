@@ -15,6 +15,9 @@
           <a class="nav-link" href="/about">About</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/posts/create">New post</a>
         </li>
 </ul>
@@ -27,10 +30,10 @@
             Username
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="{{route('posts.index')}}">Posts</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Log out</a></li>
           </ul>
          
         </li>
