@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BlogController;
+use App\Http\Middleware\IsAdminMiddleware;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,20 +17,31 @@ use App\Http\Controllers\BlogController;
 |
 */
 
-Route::get('blog', [BlogController::class, 'getIndex'])->name('blog.index');
-Route::get('blog/{slug}', [BlogController::class, 'getSingle'])->name('blog.single')->where('slug', '[\w\d\-\_]+');
-Route::get('/about', [PagesController::class, 'getAbout']);
-Route::get('/', [PagesController::class, 'getIndex']);
-Route::resource('posts', PostController::class);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+//authed access this
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+
+
+    Route::middleware(['is_admin'])->group(
+    function(){
+        Route::resource('posts', PostController::class);
+    });
 });
+
+
+Route::get('blog', [BlogController::class, 'getIndex'])->name('blog.index');
+Route::get('blog/{slug}', [BlogController::class, 'getSingle'])->name('blog.single')->where('slug', '[\w\d\-\_]+');
+Route::get('/about', [PagesController::class, 'getAbout']);
+Route::get('/', [PagesController::class, 'getIndex'])->name('home');
 
 require __DIR__.'/auth.php';

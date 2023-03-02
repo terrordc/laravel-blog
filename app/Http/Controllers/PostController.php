@@ -15,6 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
+        // $this->authorize('view', auth()->user());
+
         $posts = Post::orderBy('id', 'desc')->paginate(10);
         // sort dy?
         return view('posts.index')->withPosts($posts);
@@ -103,6 +105,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+
+        $this->authorize('edit', $id);
+//ADD KAZANTSEVA
+
         $post = Post::find($id);
 
         return view('posts.edit')->withPost($post);
