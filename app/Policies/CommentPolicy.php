@@ -2,10 +2,12 @@
 
 namespace App\Policies;
 
+use App\Models\Comment;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class CommentPolicy
 {
     use HandlesAuthorization;
 
@@ -17,7 +19,6 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-
         return $user->role_id == Role::IS_ADMIN;
     }
 
@@ -25,17 +26,15 @@ class UserPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, User $model)
+    public function view(User $user, Comment $comment)
     {
-        // if($model->role !== admin){
-        //     return false;
-        // }
-        // return $model->role === 'admin';
-        // if admin return true
-        // return $model->role === 'admin';
+        return $user->role_id == Role::IS_ADMIN;
+    }
+    public function viewSexy(User $user)
+    {
         return $user->role_id == Role::IS_ADMIN;
     }
 
@@ -47,58 +46,54 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        // return $model->role === 'admin';
-        // return $model->role === 'admin';
-        return $user->role_id == Role::IS_ADMIN;
+        return in_array($user->role_id, [Role::IS_ADMIN, Role::IS_EDITOR, Role::IS_USER]);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, User $model)
+    public function update(User $user, Comment $comment)
     {
-        // return $model->role === 'admin';
-        return $user->role_id == Role::IS_ADMIN;
+        return $user->role_id == Role::IS_ADMIN || (auth()->check() && $comment->user_id == auth()->id());
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user, Comment $comment)
     {
-        // return $model->role === 'admin';
-        return $user->role_id == Role::IS_ADMIN;
+        return $user->role_id == Role::IS_ADMIN || (auth()->check() && $comment->user_id == auth()->id());
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    // public function restore(User $user, User $model)
+    // public function restore(User $user, Comment $comment)
     // {
-    //     // return $model->role === 'admin';
+    //     //
     // }
 
     // /**
     //  * Determine whether the user can permanently delete the model.
     //  *
     //  * @param  \App\Models\User  $user
-    //  * @param  \App\Models\User  $model
+    //  * @param  \App\Models\Comment  $comment
     //  * @return \Illuminate\Auth\Access\Response|bool
     //  */
-    // public function forceDelete(User $user, User $model)
+    // public function forceDelete(User $user, Comment $comment)
     // {
-    //     // return $model->role === 'admin';
+    //     //
     // }
 }

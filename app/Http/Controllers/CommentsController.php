@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 use Session;
 class CommentsController extends Controller
 {
@@ -15,8 +16,11 @@ class CommentsController extends Controller
      */
     public function index()
     {
-        $comments = Post::orderBy('id', 'desc')->paginate(10);
-        dd($comments);
+        $this->authorize('viewAny', Comment::class);
+
+        $comments = Comment::orderBy('id', 'desc')->paginate(10);
+       
+        return view('comments.index')->withComments($comments);
     }
 
     /**
@@ -26,7 +30,7 @@ class CommentsController extends Controller
      */
     public function create()
     {
-
+            //admin func
     }
 
     /**
@@ -37,6 +41,8 @@ class CommentsController extends Controller
      */
     public function store(Request $request, $post_id)
     {
+        $this->authorize('create', Comment::class);
+
         $validated = $request->validate([
             'comment' => 'required|min:5|max:2000',
         ]);
@@ -66,7 +72,13 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        //
+        //go to post containing comment, select it? url magic
+        $comment = Comment::find($id);
+        $this->authorize('view', $comment);
+        $user = User::find($comment->user_id);
+
+
+        return view('comments.show')->withComment($comment);
     }
 
     /**
@@ -89,7 +101,18 @@ class CommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'comment' => 'required|min:5|max:2000',
+        ]);
+        $comment = Comment::find($id);
+        $this->authorize('update', $comment);
+
+        $slug = $comment->post->slug;
+        $comment->comment = $request->input('comment');
+       
+        $comment->save();
+        Session::flash('success', 'Comment successfully updated!'); 
+        return redirect()->route('blog.single', $slug);
     }
 
     /**
@@ -100,6 +123,14 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = Comment::find($id);
+        $slug = $comment->post->slug;
+        $this->authorize('delete', $comment);
+        $comment->delete();
+
+        Session::flash('success', 'Comment successfully deleted!'); 
+
+      return redirect()->route('blog.single', $slug);
+
     }
 }

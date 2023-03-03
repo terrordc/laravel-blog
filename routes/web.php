@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('comments', CommentsController::class);
         Route::post('commentsw/{post_id}', [CommentsController::class, 'store'])->name('commentsw.store');
+
         // Route::post('comments/{$post_id}', CommentsController::class, 'store')->name('comments.store');
         // post id
     });
@@ -48,6 +49,9 @@ Route::middleware('auth')->group(function () {
 
 Route::get('blog', [BlogController::class, 'getIndex'])->name('blog.index');
 Route::get('blog/{slug}', [BlogController::class, 'getSingle'])->name('blog.single')->where('slug', '[\w\d\-\_]+');
+
+// Route::get('blog/{slug}#{comment_id}', [BlogController::class, 'getSingle'])->name('blog.single')->where('slug', '[\w\d\-\_]+');
+
 Route::get('/about', [PagesController::class, 'getAbout']);
 Route::get('/', [PagesController::class, 'getIndex'])->name('home');
 

@@ -29,10 +29,11 @@ class PostPolicy
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user)
+    public function view(User $user, Post $post)
     {
         return in_array($user->role_id, [Role::IS_ADMIN, Role::IS_EDITOR]);
     }
+
     public function viewSexy(User $user)
     {
         return $user->role_id == Role::IS_ADMIN;

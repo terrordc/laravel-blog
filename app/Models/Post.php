@@ -17,6 +17,10 @@ class Post extends Model
     {
         return $this->hasMany(Tags::class);
     }
+    public function user()
+    {
+        return $this->BelongsTo(User::class);
+    }
 //     protected $appends = ['name', 'email'];
 
 //     public function user(){

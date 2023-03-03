@@ -35,7 +35,7 @@
             <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{'You are not logged in'}}</a>
             <ul class="dropdown-menu dropdown-menu-end">
             
-              <li><a class="dropdown-item" href="login">Log in</a></li>
+              <li><a class="dropdown-item" href="{{route('login')}}">Log in</a></li>
               <li><a class="dropdown-item" href="{{route('register')}}">Register</a></li>
               
             </li>
