@@ -28,19 +28,36 @@
         <dd>{{date('j F, Y, G:i ', strtotime($post->updated_at))}}</dd>
     </dl>
 
+   
+    <dl class="dl-horizontal">
+        <dt>Created by:</dt>
+        <dd>{{$post->name}}</dd>
+    </dl>
+    
+    @can('viewSexy', App\Models\Post::class)
+    <dl class="dl-horizontal">
+        <dt>Email:</dt>
+        <dd>{{$post->email}}</dd>
+    </dl>
+    @endcan
+
     <hr>
 
     <div class="row justify-content-evenly">
-        
+        @can('delete', $post)
             <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-block mt-2 col-5">Edit</a>
        
-            
+            @can('edit', $post)
+            @endcan
+
             <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class=" mt-2 col-5 p-0">
                 <input type="submit" value="Delete" class="btn btn-danger btn-block w-100">
                 @csrf
                {{ method_field('DELETE') }}
             </form>
+            @endcan
     </div>
+ <a href="{{ route('posts.index') }}" class="btn btn-Light btn-block border mt-2  w-100">Back to all posts</a>
 
         </div>
     </div>

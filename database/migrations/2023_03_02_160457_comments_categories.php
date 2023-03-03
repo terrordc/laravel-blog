@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->text('body');
-            $table->string('user_id');
-            $table->timestamps();
+            $table->text('comment');
+            $table->integer('user_id')->unsigned()->references('id')->on('users')->onDelete('cascade');
+            $table->integer('post_id')->unsigned()->references('id')->on('posts')->onDelete('cascade');
+            $table->boolean('approved');
             $table->unsignedMediumInteger('likes')->nullable();
+            $table->timestamps();
+           
         });
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
@@ -27,7 +30,7 @@ return new class extends Migration
         });
 
         Schema::table('posts', function($table){
-            $table->integer('user_id')->unsigned()->references('id')->on('users')->after('body');
+            $table->integer('user_id')->unsigned()->references('id')->on('users')->after('body')->onDelete('cascade');
         });
 
     }

@@ -30,8 +30,10 @@
             <div class="form-group">
               <!-- attach image--> <label for="image">Attach file:</label>
               </div>
-                <div class="d-grid">
-                    <input class="btn btn-success btn-block btn-lg mt-3" type="submit" value="Submit"></input>
+                <div class="row m-auto justify-content-around">
+                  <a href="/posts" class="btn btn-lg btn-danger mt-3 col-md-3">Cancel</a>
+                    <input class="btn btn-success btn-lg mt-3 col-md-8" type="submit" value="Submit"></input>
+                    
                 </div>
                 <input type="hidden" name="_token" value="{{ Session::token() }}">
                 <!-- At csrf works too! -->

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostPolicy
@@ -18,8 +19,7 @@ class PostPolicy
      */
     public function viewAny(User $user)
     {
-        return $model->role === 'editor';
-        return $model->role === 'admin';
+        return in_array($user->role_id, [Role::IS_ADMIN, Role::IS_EDITOR]);
     }
 
     /**
@@ -29,10 +29,13 @@ class PostPolicy
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Post $post)
+    public function view(User $user)
     {
-        return $model->role === 'editor';
-        return $model->role === 'admin';
+        return in_array($user->role_id, [Role::IS_ADMIN, Role::IS_EDITOR]);
+    }
+    public function viewSexy(User $user)
+    {
+        return $user->role_id == Role::IS_ADMIN;
     }
 
     /**
@@ -44,8 +47,10 @@ class PostPolicy
     public function create(User $user)
     {
        
-        return $model->role === 'admin';
+        return in_array($user->role_id, [Role::IS_ADMIN, Role::IS_EDITOR]);
+        //both admin and editor
     }
+
 
     /**
      * Determine whether the user can update the model.
@@ -56,8 +61,8 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return $user->is_admin || (auth()->check() && $post->user_id == auth->id());
-
+        return $user->role_id == Role::IS_ADMIN || (auth()->check() && $post->user_id == auth()->id());
+        //both admin or post creator
     }
 
     /**
@@ -69,33 +74,30 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $model->role === 'editor';
-        return $model->role === 'admin';
+        return $user->role_id == Role::IS_ADMIN || (auth()->check() && $post->user_id == auth()->id());
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Post $post)
-    {
-        return $model->role === 'editor';
-        return $model->role === 'admin';
-    }
+    // /**
+    //  * Determine whether the user can restore the model.
+    //  *
+    //  * @param  \App\Models\User  $user
+    //  * @param  \App\Models\Post  $post
+    //  * @return \Illuminate\Auth\Access\Response|bool
+    //  */
+    // public function restore(User $user, Post $post)
+    // {
+    //     return $user->role_id == Role::IS_ADMIN || (auth()->check() && $post->user_id == auth()->id());
+    // }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Post $post)
-    {
-        return $model->role === 'editor';
-        return $model->role === 'admin';
-    }
+    // /**
+    //  * Determine whether the user can permanently delete the model.
+    //  *
+    //  * @param  \App\Models\User  $user
+    //  * @param  \App\Models\Post  $post
+    //  * @return \Illuminate\Auth\Access\Response|bool
+    //  */
+    // public function forceDelete(User $user, Post $post)
+    // {
+    //     return $user->role_id == Role::IS_ADMIN || (auth()->check() && $post->user_id == auth()->id());
+    // }
 }

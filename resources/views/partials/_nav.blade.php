@@ -17,13 +17,17 @@
         <li class="nav-item">
           <a class="nav-link" href="/blog">Blog</a>
         </li>
+        @can('create', App\Models\Post::class)
         <li class="nav-item">
           <a class="nav-link" href="/posts/create">New post</a>
         </li>
+        @endcan
 </ul>
 
         <ul class="navbar-nav ms-auto mb-0 mb-lg-0">
+          @can('create', App\Models\Post::class)
         <a href="/posts/create" class="btn btn-primary ms-auto me-2 d-none d-lg-block">New Post</a>
+        @endcan
         <li class="nav-item dropdown">
         
           

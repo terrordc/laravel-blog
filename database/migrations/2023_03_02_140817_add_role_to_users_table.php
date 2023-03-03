@@ -23,7 +23,7 @@ return new class extends Migration
 
         Schema::table('users', function (Blueprint $table) {
             // 1 - user, 2 - editor, 3 - admin
-            $table->tinyInteger('role_id')->unsigned()->default('1')->references('id')->on('roles')->after('remember_token');
+            $table->tinyInteger('role_id')->unsigned()->default('1')->references('id')->on('roles')->after('remember_token')->onDelete('cascade');
 });
     }
 
@@ -35,7 +35,9 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('roles');
+
         Schema::table('users', function($table){
+
             $table->dropColumn(['role_id']);
 
          });
