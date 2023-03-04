@@ -6,6 +6,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsAdminMiddleware;
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['is_admin'])->group(
     function(){
         Route::resource('posts', PostController::class);
-
+        Route::resource('users', UserController::class);
 
         Route::resource('comments', CommentsController::class);
         Route::post('commentsw/{post_id}', [CommentsController::class, 'store'])->name('commentsw.store');

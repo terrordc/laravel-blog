@@ -118,7 +118,7 @@
          --}}
 
 
-        <div class="comment border rounded card mt-3" id="{{$comment->id}}">
+        {{-- <div class="comment border rounded card mt-3" id="{{$comment->id}}">
             <h5 class="card-header">{{$comment->user->name}}</h5>
             <form method="POST" action="{{ route('comments.update', $comment->id) }}">
                 
@@ -143,7 +143,7 @@
                 @csrf
             </form>
 
-</div>
+</div> --}}
 
 
 
