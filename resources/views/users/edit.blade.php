@@ -21,13 +21,16 @@
                 </div>
 
                 
-            <div class="form-group">
-              <label for="role_id">Role:</label>
-              <textarea type="text" class="form-control " id="role_id" name="role_id" rows="1">{{ $user->role_id }}</textarea>
-            </div>
-        </div>
+                <div class="form-group">
+                  <label for="role_id"> Role:</label>
+                <select class="form-control" name="role_id" id="role_id" data-parsley-range="[1, 3]">
+                  <option value="1">User</option>
+                  <option value="2">Editor</option>
+                  <option value="3">Admin</option>
+                </select>
+              </div>
           
-
+            </div>
           
 <div class="col-md-4 mt-4">
     <div class="card">

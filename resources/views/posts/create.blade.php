@@ -23,6 +23,19 @@
   <input class="form-control" name="slug" id="slug" minlength="5" maxlength="255"></textarea>
   <p class="text-muted mb-1 mt-1">If left null, slug is taken from title</p>
   </div>
+
+  <div class="form-group">
+    <label for="category_id"> Category:</label>
+    <select class="form-control" name="category_id" id="category_id">
+        @foreach($categories as $category)
+        <option value="{{$category->id}}">{{$category->name}}</option>
+
+        @endforeach
+      </select>
+    {{-- <input class="form-control" name="category" id="category" minlength="5" maxlength="255"></textarea> --}}
+    <p class="text-muted mb-1 mt-1">If left null, slug is taken from title</p>
+    </div>
+
 <div class="form-group">
             <label for="body"> Post body:</label>
             <textarea class="form-control" name="body" rows="10" id="body" required></textarea>

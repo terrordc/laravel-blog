@@ -23,11 +23,15 @@
   <input class="form-control" name="email" id="email" data-parsley-type="email"></textarea>
  
   </div>
-  <div class="form-group">
-    <label for="role_id"> Role:</label>
-    <input class="form-control" name="role_id" id="role_id" value="1" data-parsley-range="[1, 3]"></textarea>
-   
-    </div>
+
+    <div class="form-group">
+      <label for="role_id"> Role:</label>
+    <select class="form-control" name="role_id" id="role_id" data-parsley-range="[1, 3]">
+      <option value="1">User</option>
+      <option value="2">Editor</option>
+      <option value="3">Admin</option>
+    </select>
+  </div>
 <div class="form-group">
             <label for="password"> Password:</label>
             <textarea class="form-control" name="password" type="password" rows="1" id="password" required minlength="8"></textarea>

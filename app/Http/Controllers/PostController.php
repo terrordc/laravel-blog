@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Category;
 use Session;
 use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
@@ -41,7 +42,8 @@ class PostController extends Controller
     public function create(User $user)
     {
         $this->authorize('create', Post::class);
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create')->withCategories($categories);
     }
 
     /**
@@ -58,6 +60,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|min:5|max:255',
             'body' => 'required',
+            'category_id' => 'required|integer',
         ]);
        
          //    if slug field is null
@@ -92,6 +95,7 @@ class PostController extends Controller
     // update everything else and save
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->category_id = $request->category_id;
         $post->user_id = auth()->id();
         $post->save();
         Session::flash('success', 'Post successfully created!'); 
@@ -137,7 +141,8 @@ class PostController extends Controller
         $user = User::find($post->user_id);
         $post->name = $user->name;
         $post->email = $user->email;
-        return view('posts.edit')->withPost($post);
+        $categories = Category::all();
+        return view('posts.edit')->withPost($post)->withCategories($categories);
     }
 
     /**
@@ -156,6 +161,7 @@ class PostController extends Controller
             $validated = $request->validate([
                 'title' => 'required|max:255',
                 'body' => 'required',
+                'category_id' => 'required|integer',
             ]);
         }
 
@@ -194,6 +200,7 @@ class PostController extends Controller
         // update everything else and save
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        $post->category_id = $request->category_id;
         $post->save();
         Session::flash('success', 'Post successfully updated!'); 
         return redirect()->route('posts.show', $post->id);

@@ -12,7 +12,7 @@
     <div class="col-md-10 m-auto ">
         <h1 class="mt-3">{{ $post->title}}</h1>
         <p class="mt-2">{{$post->body}}</p>
-        @include('partials\_tags')
+        @include('partials\_category')
     </div>
 </div>
 <hr>
@@ -58,12 +58,12 @@
                     <div id="comment-body-{{$comment->id}}">
                 <div class="p-3 pb-0" > {{$comment->comment}}</div>
                 <span class="text-muted p-3 pt-0 pb-0 mb-2">{{$comment->updated_at}}</span>
-                <div class="row p-3">
+                <div class="row p-3 justify-content-end">
                     
                         @can('delete', $comment)
-                        <div class="col-md-6">
+                        <div class="col-md-2 ">
                         <form method="POST" action="{{ route('comments.destroy', $comment->id) }}"  class=" ">
-                            <input type="submit" value="Delete" class="btn btn-danger btn-block">
+                            <input type="submit" value="Delete" class="btn btn-danger btn-block w-100">
                             @csrf
                         {{ method_field('DELETE') }}
                         </form> 
@@ -71,8 +71,8 @@
                         @endcan
 
                         @can('update', $comment)
-                        <div class="col-md-6">
-                        <button class="btn btn-success btn-block" id="edit-{{$comment->id}}-button" onclick="showEditForm(id)">Edit</button>
+                        <div class="col-md-2 ">
+                        <button class="btn btn-success btn-block w-100" id="edit-{{$comment->id}}-button" onclick="showEditForm(id)">Edit</button>
                         </div>
                         @endcan
                     </div>

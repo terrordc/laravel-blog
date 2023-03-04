@@ -40,17 +40,17 @@
         <dd>{{$post->email}}</dd>
     </dl>
     @endcan
-    @include('partials\_tags')
+    @include('partials\_category')
     <hr>
 
-    <div class="row justify-content-evenly">
+    <div class="row justify-content-between">
         @can('delete', $post)
-            <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-block mt-2 col-5">Edit</a>
+            <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-block mt-2 col-5 ms-3">Edit</a>
        
             @can('edit', $post)
             @endcan
 
-            <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class=" mt-2 col-5 p-0">
+            <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class=" mt-2 col-5 p-0 me-3">
                 <input type="submit" value="Delete" class="btn btn-danger btn-block w-100">
                 @csrf
                {{ method_field('DELETE') }}

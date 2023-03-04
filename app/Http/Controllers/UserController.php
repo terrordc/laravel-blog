@@ -49,10 +49,10 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' =>'unique:users,email|required|email:rfc,dns',
             'role_id' => 'required|between:1,3',
-            'password' =>'min:8|',
+            'password' =>'min:8',
             'repeat-password' =>'min:8|same:password',
         ]);
-
+        
 
         
         $user = new User;
@@ -60,6 +60,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = $request->input('password');
+        $user->role_id = $request->input('role_id');
 
 
         $user->save();

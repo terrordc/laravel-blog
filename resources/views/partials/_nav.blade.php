@@ -17,11 +17,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/blog">Blog</a>
         </li>
-        @can('create', App\Models\Post::class)
-        <li class="nav-item">
-          <a class="nav-link" href="/posts/create">New post</a>
-        </li>
-        @endcan
+
 </ul>
 
         <ul class="navbar-nav ms-auto mb-0 mb-lg-0">

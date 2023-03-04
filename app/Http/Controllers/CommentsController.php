@@ -21,6 +21,9 @@ class CommentsController extends Controller
 
         $comments = Comment::orderBy('id', 'desc')->paginate(10);
        
+
+        $thecomment = Comment::find(1)->post;
+        dd($thecomment);
         return view('comments.index')->withComments($comments);
     }
 
@@ -74,7 +77,7 @@ class CommentsController extends Controller
     public function show($id)
     {
         //go to post containing comment, select it? url magic
-        
+
         // $comment = Comment::find($id);
         // $this->authorize('view', $comment);
         // $user = User::find($comment->user_id);

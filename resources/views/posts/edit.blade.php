@@ -16,6 +16,19 @@
                 <textarea class="form-control" name="slug" id="slug" rows="1" style="resize:none; " >{{ $post->slug }}</textarea>
                 <p class="text-muted mb-1 mt-1">If left null, slug is taken from title</p>
 
+                <label for="category_id"> Category:</label>
+                <select class="form-control" name="category_id" id="category_id" value="{{$post->category->id}}">
+                    @foreach($categories as $category)
+                    @if($category->id == $post->category->id)
+                    <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                    @else
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endif
+                    
+            
+                    @endforeach
+                  </select>
+
                 </div>
             <div class="form-group">
               <label for="body">Body:</label>

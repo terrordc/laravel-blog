@@ -34,12 +34,12 @@
 
     <hr>
 
-    <div class="row justify-content-around">
+    <div class="row justify-content-between">
 
-            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-block mt-2 col-5">Edit</a>
+            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-block mt-2 col-5 ms-3">Edit</a>
 
 
-            <form method="POST" action="{{ route('users.destroy', $user->id) }}" class=" mt-2 col-5 p-0">
+            <form method="POST" action="{{ route('users.destroy', $user->id) }}" class=" mt-2 col-5 p-0 me-3">
                 <input type="submit" value="Delete" class="btn btn-danger btn-block w-100">
                 @csrf
                {{ method_field('DELETE') }}
@@ -87,25 +87,31 @@
     </div>
 </div>
 
-
+{{-- @include('partials\_comment_last3') --}}
 <div class="row mt-4 ">
     <div class="col-md-10  m-auto border rounded p-4">
         <h3>Recent comments by user:</h3>
+
+
+
+        {{-- ПОЧЕМУ??? --}}
+        {{-- lower than 9 user_id gives --}}
         @foreach($comments as $comment)
         <div class="row mt-4 ">
             <div class="col-md-11 m-auto border rounded p-4">
+                {{dd($comment->post)}}
                 <h5>On post: {{$comment->post->title}}</h5>
                 <p>Said: {{ \Illuminate\Support\Str::limit($comment->comment, 255, '...')}}</p>
                 <div class="row align-items-center">
                    
                     <span class="text-muted col-7">{{date('j F, Y, G:i ', strtotime($comment->updated_at))}}</span>
-                    <div class="row col-5 justify-content-between">
-                        <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" class=" mt-2 col-5 me-2">
+                    <div class="row justify-content-between">
+                        <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" class=" mt-2 col-5 me-3">
                             <input type="submit" value="Delete comment" class="btn btn-danger ">
                             @csrf
                            {{ method_field('DELETE') }}
                         </form>
-                    <a href="{{ route('blog.single', $comment->post->slug) }}" class="btn btn-primary col-5 mt-2 ms-2">Go to post</a>
+                    <a href="{{ route('blog.single', $comment->post->slug) }}" class="btn btn-primary col-5 mt-2 ms-3">Go to post</a>
                 </div>
             </div>
             </div>
