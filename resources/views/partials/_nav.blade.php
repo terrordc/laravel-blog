@@ -17,23 +17,46 @@
         <li class="nav-item">
           <a class="nav-link" href="/blog">Blog</a>
         </li>
+        @can('create', App\Models\Post::class)
         <li class="nav-item">
           <a class="nav-link" href="/posts/create">New post</a>
         </li>
+        @endcan
 </ul>
 
         <ul class="navbar-nav ms-auto mb-0 mb-lg-0">
+          @can('create', App\Models\Post::class)
         <a href="/posts/create" class="btn btn-primary ms-auto me-2 d-none d-lg-block">New Post</a>
+        @endcan
         <li class="nav-item dropdown">
         
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Username
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="{{route('posts.index')}}">Posts</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+          
+            @if(auth()->user() == null)
+            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{'You are not logged in'}}</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+            
+              <li><a class="dropdown-item" href="{{route('login')}}">Log in</a></li>
+              <li><a class="dropdown-item" href="{{route('register')}}">Register</a></li>
+              
+            </li>
+            @else
+            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">{{auth()->user()->name}}</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{{route('dashboard')}}">Dashboard</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Log out</a></li>
+            <li><form method="POST" action="http://localhost:8000/logout">
+              @csrf
+              <a class="dropdown-item" href="http://localhost:8000/logout" onclick="event.preventDefault();this.closest('form').submit();">Log Out</a>
+          </form>
+        </li>
+
+            @endif
+        
+          
+
+            
+                
+
           </ul>
          
         </li>

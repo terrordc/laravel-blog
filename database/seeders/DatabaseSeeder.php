@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Comment;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,8 +17,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $posts= Post::factory(100)->create();
-        
+        Post::factory(100)->create();
+        User::factory(10)->create();
+
+        Role::create(['name'=>'user']);
+        Role::create(['name'=>'editor']);
+        Role::create(['name'=>'administrator']);
+
+        Comment::factory(100)->create();
 
     }
 }

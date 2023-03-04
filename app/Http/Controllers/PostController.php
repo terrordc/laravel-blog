@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 use Session;
 use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
@@ -15,9 +16,20 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Post::class);
+
         $posts = Post::orderBy('id', 'desc')->paginate(10);
-        // sort dy?
+        // return poster name
+        $users = [];
+        foreach($posts as $post){
+          
+           $user = User::find($post->user_id);
+           $post->name = $user->name;
+           $post->email = $user->email;
+        }
+        
         return view('posts.index')->withPosts($posts);
+        // ->withUsers($users)
     }
 
     /**
@@ -25,9 +37,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-      
+        $this->authorize('create', Post::class);
         return view('posts.create');
     }
 
@@ -39,12 +51,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $post = new Post;
+        $this->authorize('create', Post::class);
 
         $validated = $request->validate([
             'title' => 'required|min:5|max:255',
             'body' => 'required',
         ]);
-        $post = new Post;
+       
          //    if slug field is null
         if($request->slug == null){
                 // create slug from title
@@ -77,6 +91,7 @@ class PostController extends Controller
     // update everything else and save
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->user_id = auth()->id();
         $post->save();
         Session::flash('success', 'Post successfully created!'); 
       return redirect()->route('posts.show', $post->id);
@@ -91,7 +106,14 @@ class PostController extends Controller
      */
     public function show($id)
     {
+
+
         $post = Post::find($id);
+        $this->authorize('view', $post);
+        $user = User::find($post->user_id);
+        $post->name = $user->name;
+        $post->email = $user->email;
+
         return view('posts.show')->withPost($post);
     }
 
@@ -103,8 +125,16 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
 
+        // $this->authorize('edit', $id);
+//ADD KAZANTSEVA
+
+        $post = Post::find($id);
+        $this->authorize('update', $post);
+
+        $user = User::find($post->user_id);
+        $post->name = $user->name;
+        $post->email = $user->email;
         return view('posts.edit')->withPost($post);
     }
 
@@ -118,7 +148,7 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
-        
+        $this->authorize('update', $post);
         // slug hasnt changed - skip to save
         if($request->input('slug') == $post->slug){
             $validated = $request->validate([
@@ -176,7 +206,7 @@ class PostController extends Controller
     public function destroy(Request $request, $id)
     {
         $post = Post::find($id);
-
+        $this->authorize('delete', $post);
         $post->delete();
 
         Session::flash('success', 'Post successfully deleted!'); 

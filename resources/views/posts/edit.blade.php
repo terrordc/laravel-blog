@@ -38,7 +38,19 @@
         <dt>Created at:</dt>
         <dd>{{date('j F, Y, G:i ', strtotime($post->updated_at))}}</dd>
     </dl>
-
+   
+    <dl class="dl-horizontal">
+        <dt>Created by:</dt>
+        <dd>{{$post->name}}</dd>
+    </dl>
+    
+    @can('viewSexy', App\Models\Post::class)
+    <dl class="dl-horizontal">
+        <dt>Email:</dt>
+        <dd>{{$post->email}}</dd>
+    </dl>
+    @endcan
+    
     <hr>
 
     <div class="row justify-content-between m-0">

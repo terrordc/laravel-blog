@@ -15,6 +15,10 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Body</th>
+                    <th>Name</th>
+                    @can('viewSexy', App\Models\Post::class)
+                    <th>Email</th>
+                    @endcan
                     <th>Created At</th>
                     <th></th>
                 </thead>
@@ -30,10 +34,20 @@
                         <td>
                             {{ \Illuminate\Support\Str::limit($post->body, 255, '...')}}
                         </td>
+                        <td>
+                            {{ $post->name}}
+                        </td>
+                        @can('viewSexy', App\Models\Post::class)
+                        <td>
+                            {{ $post->email}}
+                        </td>
+                        @endcan
                         <td>{{date('j F, Y, G:i ', strtotime($post->created_at))}}</td>
                         <td style="width:12%; text-align:center;">
-                            <a href="{{ route('posts.show' , $post->id)}}" class="btn btn-default btn-sm border d-block m-auto mb-1">View</a>
-                            <a href="{{ route('posts.edit' , $post->id)}}" class="btn btn-default btn-sm border d-block m-auto mt-1">Edit</a>
+                            <a href="{{ route('posts.show' , $post->id)}}" class="btn btn-primary btn-sm border d-block m-auto mb-1">View</a>
+                            @can('update', $post)
+                            <a href="{{ route('posts.edit' , $post->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit</a>
+                            @endcan
                         </td>
                     </tr>
                     @endforeach
@@ -49,4 +63,6 @@
     </div>
 </div>  
 </div>
+
+
 @endsection
