@@ -68,7 +68,13 @@
                 <div class="row align-items-center">
                 <span class="text-muted col-8">{{date('j F, Y, G:i ', strtotime($post->updated_at))}}</span>
                 <div class="row col-4 justify-content-between">
-                 <a href="{{ route('posts.destroy', $post->id) }}" class="btn btn-danger col-5 mt-2 me-2">Delete post</a>
+                    <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class=" mt-2 col-5 me-2">
+                        <input type="submit" value="Delete post" class="btn btn-danger ">
+                        @csrf
+                       {{ method_field('DELETE') }}
+                    </form>
+                 
+
                  <a href="{{ route('blog.single', $post->slug) }}" class="btn btn-primary col-5 mt-2 ms-2">Go to post</a>
                 </div>
             </div>
@@ -94,7 +100,11 @@
                    
                     <span class="text-muted col-7">{{date('j F, Y, G:i ', strtotime($comment->updated_at))}}</span>
                     <div class="row col-5 justify-content-between">
-                    <a href="{{ route('comments.destroy', $comment->id) }}" class="btn btn-danger col-5 mt-2 me-2">Delete comment</a>
+                        <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" class=" mt-2 col-5 me-2">
+                            <input type="submit" value="Delete comment" class="btn btn-danger ">
+                            @csrf
+                           {{ method_field('DELETE') }}
+                        </form>
                     <a href="{{ route('blog.single', $comment->post->slug) }}" class="btn btn-primary col-5 mt-2 ms-2">Go to post</a>
                 </div>
             </div>

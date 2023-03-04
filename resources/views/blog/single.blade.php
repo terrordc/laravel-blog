@@ -12,15 +12,17 @@
     <div class="col-md-10 m-auto ">
         <h1 class="mt-3">{{ $post->title}}</h1>
         <p class="mt-2">{{$post->body}}</p>
+        @include('partials\_tags')
     </div>
 </div>
 <hr>
+@can('create', App\Models\Comment::class)
 <div class="row">
     <div class="col-md-10 m-auto">
 <h3>Leave a comment</h3>
 </div>
 </div>
-@can('create', App\Models\Comment::class)
+
 
 <div class="row">
 
@@ -28,7 +30,7 @@
         
         {{-- can банка --}}
 
-<form method="POST" action="{{ route('commentsw.store', $post->id) }}" data-parsley-validate>
+<form method="POST" action="{{ route('comments.store', $post->id) }}" data-parsley-validate>
 
 
     <div class="form-group">

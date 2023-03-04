@@ -40,7 +40,7 @@
         <dd>{{$post->email}}</dd>
     </dl>
     @endcan
-
+    @include('partials\_tags')
     <hr>
 
     <div class="row justify-content-evenly">
@@ -59,9 +59,12 @@
     </div>
  <a href="{{ route('posts.index') }}" class="btn btn-Light btn-block border mt-2  w-100">Back to all posts</a>
 
+
+
         </div>
     </div>
 </div>
 
 </div>
+@include('partials\_comment_last3')
 @endsection

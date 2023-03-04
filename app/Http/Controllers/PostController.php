@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use Session;
 use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
@@ -113,8 +114,9 @@ class PostController extends Controller
         $user = User::find($post->user_id);
         $post->name = $user->name;
         $post->email = $user->email;
+        $comments = Comment::whereBelongsTo($post)->orderBy('id', 'desc')->paginate(3);
 
-        return view('posts.show')->withPost($post);
+        return view('posts.show')->withPost($post)->withComments($comments);
     }
 
     /**

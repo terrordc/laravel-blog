@@ -22,6 +22,7 @@ class PostFactory extends Factory
             'slug' => \Illuminate\Support\Str::slug(fake()->realTextBetween($minNbChars = 30, $maxNbChars = 120, $indexSize = 2), '-'),
             'likes' => fake()->randomNumber(4, false),
             'user_id' => rand(1,10),
+            'category_id' => rand(1,10),
     ];
     }
     

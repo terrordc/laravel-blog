@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Role;
 use Session;
 class CommentsController extends Controller
 {
@@ -73,12 +74,13 @@ class CommentsController extends Controller
     public function show($id)
     {
         //go to post containing comment, select it? url magic
-        $comment = Comment::find($id);
-        $this->authorize('view', $comment);
-        $user = User::find($comment->user_id);
+        
+        // $comment = Comment::find($id);
+        // $this->authorize('view', $comment);
+        // $user = User::find($comment->user_id);
 
 
-        return view('comments.show')->withComment($comment);
+        // return view('comments.show')->withComment($comment);
     }
 
     /**
@@ -129,8 +131,13 @@ class CommentsController extends Controller
         $comment->delete();
 
         Session::flash('success', 'Comment successfully deleted!'); 
+        if(auth()->user()->role_id == Role::IS_ADMIN){
+            return redirect()->route('comments.index');
+        }
+        else{
+            return redirect()->route('blog.single', $slug);
+        }
 
-      return redirect()->route('blog.single', $slug);
 
     }
 }

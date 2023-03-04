@@ -48,6 +48,15 @@
                             @can('update', $post)
                             <a href="{{ route('posts.edit' , $post->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit</a>
                             @endcan
+                            @can('delete', $post)
+                            <form method="POST" action="{{ route('posts.destroy', $post->id) }}" class=" p-0"  >
+                                <input type="submit" value="Delete" class="btn btn-danger d-block btn-sm border mt-1">
+                                @csrf
+                               {{ method_field('DELETE') }}
+                            </form>
+                            @endcan
+                            
+
                         </td>
                     </tr>
                     @endforeach

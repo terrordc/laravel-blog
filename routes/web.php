@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Middleware\IsAdminMiddleware;
 /*
 |--------------------------------------------------------------------------
@@ -31,28 +32,21 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
-
-
-    Route::middleware(['is_admin'])->group(
-    function(){
         Route::resource('posts', PostController::class);
         Route::resource('users', UserController::class);
-
-        Route::resource('comments', CommentsController::class);
-        Route::post('commentsw/{post_id}', [CommentsController::class, 'store'])->name('commentsw.store');
-
+        Route::resource('categories', CategoriesController::class, ['except' => ['create']]);
+        Route::resource('comments', CommentsController::class, ['except' => ['store']]);
+        Route::post('comments/{post_id}', [CommentsController::class, 'store'] )->name('comments.store');
+//js???
         // Route::post('comments/{$post_id}', CommentsController::class, 'store')->name('comments.store');
         // post id
-    });
+  
 });
 
-
+//middleware guest???
 Route::get('blog', [BlogController::class, 'getIndex'])->name('blog.index');
 Route::get('blog/{slug}', [BlogController::class, 'getSingle'])->name('blog.single')->where('slug', '[\w\d\-\_]+');
-
 // Route::get('blog/{slug}#{comment_id}', [BlogController::class, 'getSingle'])->name('blog.single')->where('slug', '[\w\d\-\_]+');
-
 Route::get('/about', [PagesController::class, 'getAbout']);
 Route::get('/', [PagesController::class, 'getIndex'])->name('home');
 

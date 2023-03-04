@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::table('posts', function($table){
             $table->unsignedMediumInteger('likes')->nullable();
-            $table->unsignedSmallInteger('category_id')->nullable();
+            $table->unsignedMediumInteger('category_id')->nullable()->references('id')->on('posts')->onDelete('cascade');
             $table->boolean('is_published')->nullable();
             $table->string('slug')->unique()->after('body')->nullable();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

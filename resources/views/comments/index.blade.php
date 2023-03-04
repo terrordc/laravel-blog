@@ -37,7 +37,11 @@
                             <a href="{{ route('comments.show' , $comment->id)}}" class="btn btn-primary btn-sm border d-block m-auto mb-1">View</a>
 
                             <a href="{{ route('comments.edit' , $comment->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit</a>
-
+                            <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" class=" p-0"  >
+                                <input type="submit" value="Delete" class="btn btn-danger d-block btn-sm border mt-1">
+                                @csrf
+                               {{ method_field('DELETE') }}
+                            </form>
                         </td>
                     </tr>
                     @endforeach
