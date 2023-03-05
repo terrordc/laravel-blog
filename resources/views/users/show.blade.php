@@ -60,7 +60,7 @@
     <div class="col-md-10 m-auto border rounded p-4">
         <h3>Recent posts by user:</h3>
     
-        @foreach($posts as $post)
+        @foreach($user_posts = $user->posts()->paginate(3) as $post)
         <div class="row mt-4 ">
             <div class="col-md-11 m-auto border rounded p-4">
                 <h5>{{ \Illuminate\Support\Str::limit($post->body, 99, '...')}}</h5>
@@ -82,44 +82,44 @@
         </div>
         @endforeach
         <div class="mt-4">
-        {!! $posts->links(); !!}
+        {!! $user_posts->links(); !!}
     </div>
     </div>
 </div>
 
-{{-- @include('partials\_comment_last3') --}}
-<div class="row mt-4 ">
-    <div class="col-md-10  m-auto border rounded p-4">
-        <h3>Recent comments by user:</h3>
 
-
-
-        {{-- ПОЧЕМУ??? --}}
-        {{-- lower than 9 user_id gives --}}
-        @foreach($comments as $comment)
-        <div class="row mt-4 ">
-            <div class="col-md-11 m-auto border rounded p-4">
-                {{dd($comment->post)}}
-                <h5>On post: {{$comment->post->title}}</h5>
-                <p>Said: {{ \Illuminate\Support\Str::limit($comment->comment, 255, '...')}}</p>
-                <div class="row align-items-center">
-                   
-                    <span class="text-muted col-7">{{date('j F, Y, G:i ', strtotime($comment->updated_at))}}</span>
-                    <div class="row justify-content-between">
-                        <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" class=" mt-2 col-5 me-3">
-                            <input type="submit" value="Delete comment" class="btn btn-danger ">
+<div class="m-auto">
+    <div class="row mt-4 ">
+        <div class="col-md-10  border rounded p-4 m-auto">
+            <h3>Recent comments:</h3>
+            @foreach($user_comments = $user->comments()->paginate(3) as $comment)
+            <div class="row mt-4 ">
+                <div class="col-md-11 m-auto border rounded p-4">
+                    <h5>User: {{$comment->user->name}}</h5>
+                    <p>Said: {{ \Illuminate\Support\Str::limit($comment->comment, 255, '...')}}</p>
+                    <div class="row align-items-center">
+                       
+                        <span class="text-muted col-3">{{date('j F, Y, G:i ', strtotime($comment->updated_at))}}</span>
+                        <div class="row col-9 justify-content-end">
+                        
+                        {{-- diff method? --}}
+    
+                        <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" class=" col-6 ">
+                            <input type="submit" value="Delete comment" class="btn btn-danger w-100">
                             @csrf
                            {{ method_field('DELETE') }}
                         </form>
-                    <a href="{{ route('blog.single', $comment->post->slug) }}" class="btn btn-primary col-5 mt-2 ms-3">Go to post</a>
+    
+                        <a href="{{ route('blog.single', $comment->post->slug) }}" class="btn btn-primary col-4">Go to post</a>
+                    </div>
+                </div>
                 </div>
             </div>
-            </div>
+            @endforeach
+            <div class="mt-4">
+            {!! $user_comments->links(); !!}
         </div>
-        @endforeach
-        <div class="mt-4">
-        {!! $comments->links(); !!}
-    </div>
+        </div>
     </div>
 </div>
 @endsection

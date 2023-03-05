@@ -53,16 +53,52 @@
             @foreach($post->comments as $comment)
             <div class="comment border rounded card mt-3" id="{{$comment->id}}">
                 <h5 class="card-header">{{$comment->user->name}}</h5>
-                <div id="appendhere-{{$comment->id}}"></div>
+                <div id="appendhere-{{$comment->id}}" class="d-none">
+                    
+                    @can('update', $comment)
+                    <div class="p-3 justify-content-end" id="hidethis-{{$comment->id}}">
+                        
+                        <form method="POST" action="{{ route('comments.update', $comment->id) }}">
+                            <div class="form-group">
+                                <label for="comment">Title:</label>
+                                <textarea type="text" class="form-control" id="comment" name="comment" rows="1" style="resize:none;">{{ $comment->comment }}</textarea>
+                              </div>
+                              <div class="row justify-content-end mt-2">
+                              <div class="col-md-2">
+                            <div class="btn btn-danger btn-block w-100" id="hide-edit-{{$comment->id}}" onclick="hideEditForm(id)">Cancel</div>
+                            
+
+                        </div>
+
+                        <div class="col-md-2 ">
+                        <input class="btn btn-success btn-block w-100" type="submit" id="" value="Save">
+                        </div>
+                    </div>
+                        
+                       
+                        @csrf
+                        {{ method_field('PUT') }}
+                      </form>
+                    </div>
+                    @endcan
+
+
+                    
+
+
+                </div>
 
                     <div id="comment-body-{{$comment->id}}">
-                <div class="p-3 pb-0" > {{$comment->comment}}</div>
-                <span class="text-muted p-3 pt-0 pb-0 mb-2">{{$comment->updated_at}}</span>
-                <div class="row p-3 justify-content-end">
+                        
+                <div class="p-3 pb-0" id="comment-{{$comment->id}}"> {{$comment->comment}}</div>
+
+                <div class="row align-items-center">
+                <span class="text-muted ps-4 mb-2  col-3" id="date-{{$comment->id}}">{{$comment->updated_at}}</span>
+                <div class="row p-3 justify-content-end col-9">
                     
                         @can('delete', $comment)
                         <div class="col-md-2 ">
-                        <form method="POST" action="{{ route('comments.destroy', $comment->id) }}"  class=" ">
+                        <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" id="delete-{{$comment->id}}">
                             <input type="submit" value="Delete" class="btn btn-danger btn-block w-100">
                             @csrf
                         {{ method_field('DELETE') }}
@@ -72,9 +108,10 @@
 
                         @can('update', $comment)
                         <div class="col-md-2 ">
-                        <button class="btn btn-success btn-block w-100" id="edit-{{$comment->id}}-button" onclick="showEditForm(id)">Edit</button>
+                        <button class="btn btn-success btn-block w-100" id="edit-{{$comment->id}}" onclick="showEditForm(id)">Edit</button>
                         </div>
                         @endcan
+                    </div>
                     </div>
                 </div>
     </div>
@@ -120,32 +157,7 @@
          --}}
 
 
-        {{-- <div class="comment border rounded card mt-3" id="{{$comment->id}}">
-            <h5 class="card-header">{{$comment->user->name}}</h5>
-            <form method="POST" action="{{ route('comments.update', $comment->id) }}">
-                
-            <div class="form-group p-3">
-                <label for="comment">Comment:</label>
-                <textarea type="text" class="form-control input-lg" id="comment" name="comment" rows="10">{{ $comment->comment }}</textarea>
-              </div>
 
-            <div class="row p-3">
-                
-                    @can('update', $comment)
-                    <div class="col-md-6">
-                        <button class="btn btn-danger btn-block" id="back-{{$comment->id}}-button" onclick="showComment(id)">Cancel</button>
-                    </div>
-
-                    <div class="col-md-6">
-                    <input class="btn btn-success btn-block" id="edit-{{$comment->id}}-button" type="submit" value="Edit">
-                    </div>
-                    @endcan
-                </div>
-                {{ method_field('PUT') }}
-                @csrf
-            </form>
-
-</div> --}}
 
 
 

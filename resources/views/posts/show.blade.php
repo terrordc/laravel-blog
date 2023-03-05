@@ -66,5 +66,7 @@
 </div>
 
 </div>
-@include('partials\_comment_last3')
+
+@include('partials\_post_comment_last3')
+
 @endsection

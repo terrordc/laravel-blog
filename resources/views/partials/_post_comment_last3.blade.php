@@ -1,8 +1,8 @@
 {{-- pass with comments via paginate--}}
 <div class="row mt-4 ">
-    <div class="col-md-10  border rounded p-4">
+    <div class="col-md-10  border rounded p-4 m-auto">
         <h3>Recent comments:</h3>
-        @foreach($comments as $comment)
+        @foreach($post_comments = $post->comments()->paginate(3) as $comment)
         <div class="row mt-4 ">
             <div class="col-md-11 m-auto border rounded p-4">
                 <h5>User: {{$comment->user->name}}</h5>
@@ -27,7 +27,7 @@
         </div>
         @endforeach
         <div class="mt-4">
-        {!! $comments->links(); !!}
+        {!! $post_comments->links(); !!}
     </div>
     </div>
 </div>

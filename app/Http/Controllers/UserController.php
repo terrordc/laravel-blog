@@ -80,11 +80,13 @@ class UserController extends Controller
                 $user = User::find($id);
                 $this->authorize('view', $user);
                 
-                $posts = Post::whereBelongsTo($user)->orderBy('id', 'desc')->paginate(3);//paginate
-                $comments = Comment::whereBelongsTo($user)->orderBy('id', 'desc')->paginate(3);
+                // $post = Post::whereBelongsTo($user)->orderBy('id', 'desc')->paginate(3);//paginate
+                // $comments = Comment::whereBelongsTo($user)->orderBy('id', 'desc')->paginate(3);
                 
             //    dd($comments);
-                return view('users.show')->withUser($user)->withPosts($posts)->withComments($comments);
+                return view('users.show')->withUser($user);
+                // ->withPosts($posts)
+                // ->withComments($comments)
     }
 
     /**

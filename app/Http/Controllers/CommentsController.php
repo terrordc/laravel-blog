@@ -20,10 +20,14 @@ class CommentsController extends Controller
         $this->authorize('viewAny', Comment::class);
 
         $comments = Comment::orderBy('id', 'desc')->paginate(10);
-       
+       foreach($comments as $comment){
+        // dd($comment->post->id);
+        // Post::find();
+        //     $comment->post_id = $comment->post->id;
+       }
 
-        $thecomment = Comment::find(1)->post;
-        dd($thecomment);
+        // $thecomment = Comment::find(1)->post;
+        // dd($thecomment);
         return view('comments.index')->withComments($comments);
     }
 
@@ -83,7 +87,7 @@ class CommentsController extends Controller
         // $user = User::find($comment->user_id);
 
 
-        // return view('comments.show')->withComment($comment);
+        // return view('blog.single')->(elemid)
     }
 
     /**

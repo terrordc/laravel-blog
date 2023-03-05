@@ -118,9 +118,10 @@ class PostController extends Controller
         $user = User::find($post->user_id);
         $post->name = $user->name;
         $post->email = $user->email;
-        $comments = Comment::whereBelongsTo($post)->orderBy('id', 'desc')->paginate(3);
+        // $comments = Comment::whereBelongsTo($post)->orderBy('id', 'desc')->paginate(3);
 
-        return view('posts.show')->withPost($post)->withComments($comments);
+        return view('posts.show')->withPost($post);
+        // ->withComments($comments)
     }
 
     /**

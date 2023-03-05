@@ -25,7 +25,9 @@
 
                 <tbody>
                     @foreach($comments as $comment)
+                    
                     <tr>
+                        
                         <th>{{$comment->id}}</th>
                         <td>{{ \Illuminate\Support\Str::limit($comment->comment, 255, '...')}}</td>
                         <td>{{$comment->user->name}}</td>
@@ -34,11 +36,12 @@
                         <td>{{$comment->likes}}</td>
                         <td>{{date('j F, Y, G:i ', strtotime($comment->created_at))}}</td>
                         <td style="width:12%; text-align:center;">
-                            <a href="{{ route('comments.show' , $comment->id)}}" class="btn btn-primary btn-sm border d-block m-auto mb-1">View</a>
+                            
+                            <a href="{{ route('posts.show' , $comment->post->id)}}#comment-body{{$comment->id}}" class="btn btn-primary btn-sm border d-block m-auto mb-1">View</a>
 
                             <a href="{{ route('comments.edit' , $comment->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit</a>
                             <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" class=" p-0"  >
-                                <input type="submit" value="Delete" class="btn btn-danger d-block btn-sm border mt-1">
+                                <input type="submit" value="Delete" class="btn btn-danger d-block btn-sm border mt-1 w-100">
                                 @csrf
                                {{ method_field('DELETE') }}
                             </form>

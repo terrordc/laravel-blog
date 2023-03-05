@@ -25,11 +25,13 @@
                         <td>{{$category->name}}</td>
                         <td>{{date('j F, Y, G:i ', strtotime($category->created_at))}}</td>
                         <td style="width:12%; text-align:center;">
-                            {{-- <a href="{{ route('categories.show' , $category->id)}}" class="btn btn-primary btn-sm border d-block m-auto mb-1">View</a>
-
-                            <a href="{{ route('categories.edit' , $category->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit</a> --}}
+                           
+ @can('update', $category)
+                            <a href="{{ route('categories.edit' , $category->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit no work</a>
+                            @endcan
+                          
                             <form method="POST" action="{{ route('categories.destroy', $category->id) }}" class=" p-0"  >
-                                <input type="submit" value="Delete" class="btn btn-danger d-block btn-sm border mt-1">
+                                <input type="submit" value="Delete" class="btn btn-danger d-block btn-sm border mt-1 w-100">
                                 @csrf
                                {{ method_field('DELETE') }}
                             </form>
@@ -53,7 +55,7 @@
                     <div class="form-group">
                       <label for="name">Category name:</label>
                       <textarea type="text" class="form-control" id="name" name="name" rows="1" style="resize:none;"></textarea>
-                      <input class="btn btn-success btn-lg mt-3 btn-block" type="submit" value="Submit"></input>
+                      <input class="btn btn-success mt-3 btn-block" type="submit" value="Submit"></input>
                         <input type="hidden" name="_token" value="{{ Session::token() }}">
                     </div>
 
