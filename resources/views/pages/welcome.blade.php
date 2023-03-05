@@ -5,9 +5,9 @@
  @section('content')
 
  <div class=" p-5 text-bg-dark rounded-3 mt-4">
-          <h2>Change the background</h2>
-          <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-          <button class="btn btn-outline-light" type="button">Example button</button>
+          <h2>Welcome to The Blog!</h2>
+          <p>I'm really exited to bring you this new app!</p>
+          <a class="btn btn-outline-light" type="button" href="{{route('blog.index')}}">Bring me to all blogposts</a>
         </div>
 <!-- jumbo end end !-->
 
@@ -26,12 +26,16 @@
             <p>   
                 {{ \Illuminate\Support\Str::limit($post->body, 300, '...')}}
             </p> 
+            @include('partials\_category')
+
             <a href="{{url('blog/'. $post->slug)}}" class="btn btn-primary">Read Post</a>
 
     
     </div>
     @endforeach
-   
+    <div class="div mt-3">
+    {!! $posts->links(); !!}
+  </div>
   </div>
   <div class="col-4 ">
     <h2 class="mt-4 text-end">Sidebar</h2>

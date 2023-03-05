@@ -19,15 +19,22 @@ class CommentsController extends Controller
     {
         $this->authorize('viewAny', Comment::class);
 
-        $comments = Comment::orderBy('id', 'desc')->paginate(10);
-       foreach($comments as $comment){
-        // dd($comment->post->id);
-        // Post::find();
-        //     $comment->post_id = $comment->post->id;
-       }
+        $comments = Comment::orderBy('id', 'desc')->with('user', 'post')->paginate(10);
 
-        // $thecomment = Comment::find(1)->post;
-        // dd($thecomment);
+
+        // dd($comment->post->id); возвращает нормально
+         // echo $comment->post->id; ХУЙЛАН ГАНДОН НЕ НАЙДЕНО
+        foreach($comments as $comment){
+            
+        $post = $comment->post;
+        $slug_pos = strpos($post, 'slug');
+        $cut = substr($post, $slug_pos, -1);
+        $cut = substr($cut, 7, -1);
+        $q_pos = strpos($cut, '"');
+        $cut = substr($cut, 0, $q_pos);
+        //    echo $cut;
+           $comment->slug = $cut;
+        }
         return view('comments.index')->withComments($comments);
     }
 
