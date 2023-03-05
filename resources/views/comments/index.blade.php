@@ -14,6 +14,7 @@
                 <thead class="table-dark">
                     <th>#</th>
                     <th>Comment</th>
+                    <th>Post</th>
                     <th>User</th>
                     <th>Email</th>
                     <th>Approved</th>
@@ -30,6 +31,7 @@
                         
                         <th>{{$comment->id}}</th>
                         <td>{{ \Illuminate\Support\Str::limit($comment->comment, 255, '...')}}</td>
+                        <td>{{$comment->post->title}}</td>
                         <td>{{$comment->user->name}}</td>
                         <td>{{$comment->user->email}}</td>
                         <td>{{$comment->approved}}</td>

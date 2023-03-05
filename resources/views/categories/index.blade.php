@@ -27,7 +27,7 @@
                         <td style="width:12%; text-align:center;">
                            
  @can('update', $category)
-                            <a href="{{ route('categories.edit' , $category->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit no work</a>
+                            <a href="{{ route('categories.edit' , $category->id)}}" class="btn btn-success btn-sm border d-block m-auto mt-1">Edit</a>
                             @endcan
                           
                             <form method="POST" action="{{ route('categories.destroy', $category->id) }}" class=" p-0"  >
